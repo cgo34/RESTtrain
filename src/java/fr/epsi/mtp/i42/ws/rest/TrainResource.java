@@ -48,6 +48,7 @@ public class TrainResource {
         return Response.status(Status.NO_CONTENT).build();
     }
     
+    
   
     @POST
     public Response createTrain(Train train) {
@@ -72,12 +73,15 @@ public class TrainResource {
                 .build();
     }
     
-    
-    
-    
-    
-    
-    
-    
+    @GET // Méthode HTTP utilisée pour déclencher cette méthode
+    @Path("/search") // Chemin suivant /trains/search pour invoquer cette méthode
+    public Response searchTrainsByCriteria(@QueryParam("departure") String departure, @QueryParam("arrival") String arrival, @QueryParam("arrivalhour") String arrivalHour) {
+        System.out.println("searchTrainsByCriteria");
+        return Response
+                .status(Status.OK)
+                .entity(BookTrainBD.getTrains().subList(0, 2))
+                .build();
+    }
+
 	
 }

@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.GenericEntity;
 
+
 /**
  *
  * @author Geoffroy
@@ -26,6 +27,7 @@ import javax.ws.rs.core.GenericEntity;
 public class BookTrainResource {
     
     @Path("/booktrains")
+    @Produces("application/xml")
     public BookTrainResource getBookTrainResource(){
         return new BookTrainResource();
     }
