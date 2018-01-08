@@ -5,11 +5,12 @@
  */
 package fr.epsi.mtp.i42.ws.rest;
 
-
-import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlRootElement; 
+import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -73,14 +74,41 @@ public class TrainResource {
                 .build();
     }
     
+    @DELETE
+    @Path("deleteTrain-{id}")
+    public Response removeTrain(@PathParam("id") String numTrain){
+       System.out.println("removeTrain");
+        for(Train current : BookTrainBD.getTrains()){
+            if(current.getNumTrain().equals(numTrain)){
+                BookTrainBD.getTrains().remove(current);
+                return Response.status(Status.ACCEPTED).build();
+            }
+        }
+        return Response.status(Status.NO_CONTENT).build();
+    }
+    
     @GET // Méthode HTTP utilisée pour déclencher cette méthode
     @Path("/search") // Chemin suivant /trains/search pour invoquer cette méthode
     public Response searchTrainsByCriteria(@QueryParam("departure") String departure, @QueryParam("arrival") String arrival, @QueryParam("arrivalhour") String arrivalHour) {
         System.out.println("searchTrainsByCriteria");
-        return Response
-                .status(Status.OK)
-                .entity(BookTrainBD.getTrains().subList(0, 2))
-                .build();
+        System.out.println(arrivalHour);
+        if(arrivalHour != null){
+            System.out.println(arrivalHour);
+        }else{
+            System.out.println("fuck");
+        }
+        List<Train> list = new ArrayList<>();
+        for (Train current : BookTrainBD.getTrains()) {
+            if ((departure != null && current.getVilleDepart().toLowerCase().equals(departure.toLowerCase()))
+                    || (arrival != null && current.getVilleArrivee().toLowerCase().equals(arrival.toLowerCase()))
+                    || (arrivalHour != null && String.valueOf(current.getHeureDepart()).equals(arrivalHour))) {
+                list.add(current);
+                System.out.println(current.getHeureDepart());
+                System.out.println("saisie utilisateur");
+                System.out.println(arrivalHour);
+            }
+        }
+        return Response.status(Status.OK).entity(new GenericEntity<List<Train>>(list){}).build();
     }
 
 	

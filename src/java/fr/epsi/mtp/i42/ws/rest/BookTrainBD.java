@@ -21,6 +21,7 @@ public class BookTrainBD {
         trains.add(new Train("TR123", "Poitiers", "Paris", 1250));
         trains.add(new Train("TR127", "Poitiers", "Paris", 1420));
         trains.add(new Train("TR129", "Poitiers", "Paris", 1710));
+        trains.add(new Train("TR111", "Montpellier", "Paris", 1710));
     }
     
     public static List<Train> getTrains(){
